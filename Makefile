@@ -2,7 +2,7 @@
 UNAME_M := $(shell uname -m)
 
 ifeq ($(UNAME_M),aarch64)
-PREFIX:=i386-unknown-elf-
+PREFIX:=i686-linux-gnu-
 BOOTIMG:=/usr/local/grub/lib/grub/i386-pc/boot.img
 GRUBLOC:=/usr/local/grub/bin/
 else
@@ -23,7 +23,7 @@ ODIR = obj
 SDIR = src
 
 OBJS = \
-	kernel_main.o \
+	kernel_main.o rprintf.o\
 
 # Make sure to keep a blank line here after OBJS list
 
