@@ -115,14 +115,13 @@ void main() {
     esp_printf(putc, "Current execution level: Kernel mode (Ring 0)\r\n");
 
 
-	while(1) {
+    while(1) {
         uint8_t status = inb(0x64);
-	
-		if((status & 1) == 1) {
-            uint8_t scancode = inb(0x60);
+        if((status & 1) == 1) {
+            unsigned char scancode = inb(0x60);
             if (scancode < 128) {
-				esp_printf(putc, "0x%02x %c\n",  scancode, keyboard_map[scancode]);
-	    }
-	}
-
+                esp_printf(putc, "0x%02x %c\n",  scancode, keyboard_map[scancode]);
+             }
+        }
+    }
 }
