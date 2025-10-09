@@ -8,7 +8,6 @@ struct  list_element {
 
 struct list_element arr[10] = { {.next = &arr[1]} };
 
-
 void listAdd(strct list_elements *n){
     n->next = &arr[0];
 };
