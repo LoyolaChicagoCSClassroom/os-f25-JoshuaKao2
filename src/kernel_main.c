@@ -1,9 +1,8 @@
 
 #include <stdint.h>
 #include "rprintf.h"
-
+#include "page.h"
 #define MULTIBOOT2_HEADER_MAGIC         0xe85250d6
-
 
 const unsigned int multiboot_header[]  __attribute__((section(".multiboot"))) = {MULTIBOOT2_HEADER_MAGIC, 0, 16, -(16+MULTIBOOT2_HEADER_MAGIC), 0, 12};
 
@@ -12,7 +11,6 @@ uint8_t inb (uint16_t _port) {
     __asm__ __volatile__ ("inb %1, %0" : "=a" (rv) : "dN" (_port));
     return rv;
 }
-
 
 
 #define SCREEN_WIDTH 80
@@ -62,12 +60,28 @@ int putc(int c){
     }
     return c;
 }
+
+//adapter for esp_printf
+int vga_putc(int c) { return putc(c); }
+
+
 void main() {
     for (int i = 1; i <= 30; i++) {
         esp_printf(putc, "Line %d: Sphinx of black quartz, judge my vow.\r\n", i);
     }
 
     esp_printf(putc, "Current execution level: Kernel mode (Ring 0)\r\n");
+
+
+    init_pfa_list();
+    esp_printf(vga_putc, "Page Frame Allocator Initialized!\n");
+    print_pfa_state();
+
+    //Enable paging
+    enable_paging();
+    esp_printf(vga_putc, "Paging enabled from kernel_main.\n");
+    //Quick confirmation
+    esp_printf(vga_putc, "Hello from paged world!\n");
 
     while(1){
         uint8_t status = inb(0x60);
