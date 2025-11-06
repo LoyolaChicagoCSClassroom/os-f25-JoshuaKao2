@@ -33,7 +33,7 @@ $(ODIR)/%.o: $(SDIR)/%.c
 	$(CC) $(CFLAGS) -c -g -o $@ $^
 
 $(ODIR)/%.o: $(SDIR)/%.s
-	$(CC) $(CFLAGS) -c -g -o $@ $^
+	nasm -f elf32 -g -o $@ $^
 
 
 all: bin rootfs.img
