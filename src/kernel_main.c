@@ -65,6 +65,7 @@ int putc(int c){
 int vga_putc(int c) { return putc(c); }
 
 
+
 void main() {
     for (int i = 1; i <= 30; i++) {
         esp_printf(putc, "Line %d: Sphinx of black quartz, judge my vow.\r\n", i);
@@ -82,6 +83,7 @@ void main() {
     esp_printf(vga_putc, "Paging enabled from kernel_main.\n");
     //Quick confirmation
     esp_printf(vga_putc, "Hello from paged world!\n");
+
 
     while(1){
         uint8_t status = inb(0x60);
